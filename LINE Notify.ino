@@ -39,18 +39,18 @@ void setup()
 }
 // LINE Notification
 void send_line() {
-  // HTTPSへアクセス（SSL通信）するためのライブラリ
+  // Library for accessing HTTPS (SSL communication)
   WiFiClientSecure client;
-  // サーバー証明書の検証を行わずに接続する場合に必要
+  // Required when connecting without validating the server certificate
   client.setInsecure();
   Serial.println(“Try”);
-  //LineのAPIサーバにSSL接続（ポート443:https）
+  // SSL connection to Line's API server (port 443: https)
   if (!client.connect(host, 443)) {
     Serial.println(“Connection failed”);
     return;
   }
   Serial.println(“Connected”);
-  // リクエスト送信
+  // Send request
   String query = String(“message=“) + String(message);
   String request = String(“”) +
                “POST /api/notify HTTP/1.1\r\n” +
@@ -60,7 +60,7 @@ void send_line() {
                “Content-Type: application/x-www-form-urlencoded\r\n\r\n” +
                 query + “\r\n”;
   client.print(request);
-  // 受信完了まで待機
+  // Wait until reception is completed
   while (client.connected()) {
     String line = client.readStringUntil(‘\n’);
     if (line == “\r”) {
@@ -70,14 +70,14 @@ void send_line() {
   String line = client.readStringUntil(‘\n’);
   Serial.println(line);
 }
-// スイッチの変数宣言
+// Switch variable declaration
 int sw_val = 0;
 void loop(){
-  // スイッチの状態を読み取る
+  // Read the switch status
   sw_val = digitalRead(sw_pin);
-  // スイッチがONのとき
+  // When the switch is ON
   if (sw_val) {
-    // Lineにリクエストを送信する
+    // Send a request to Line
     send_line();
   }
 }
