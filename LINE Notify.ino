@@ -12,7 +12,7 @@ const char* host = “notify-api.line.me”;
 const char* token = “Access Token”; //Change
 
 //Notification content
-const char* message = “ボタンが押されました!“;
+const char* message = “Push!“;
 
 // Set switch PIN
 int sw_pin = 4; //Change
